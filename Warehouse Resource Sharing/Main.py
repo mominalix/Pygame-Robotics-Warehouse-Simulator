@@ -1,12 +1,3 @@
-################################################################################################
-# @File resource_sharing.py
-# #
-# @author Ammmar Murtaza and Momin Ali
-#
-# Code partly based on Python and PyGame (c) Copyright 2015-2019.
-################################################################################################
-
-
 ###### GUI IMPORTS ######
 import pygame
 import random
