@@ -1,29 +1,82 @@
-# My Robotics Projects Repository
+# Warehouse Simulator with Resource Sharing
 
-Welcome to my **Robotics Projects** repository! Here, I house various projects related to robotics, simulation, and automation. Each project resides within its own subdirectory, offering you a dedicated space to explore all the project's intricate details, comprehensive documentation, and insightful source code.
+## Introduction
 
-Feel free to navigate through these projects and delve into the array of innovative solutions, cutting-edge algorithms, and captivating simulations that my team and I have developed.
+This document outlines the proposed features of the Warehouse Simulator, a system that employs smart resource sharing among robots to efficiently achieve goals even when certain modules fail. The simulator demonstrates the utilization of resource sharing among rovers tasked with transporting colored polygons to designated drop locations based on color and shape criteria.
 
-## Projects
+The simulation environment consists of movable obstacles, rovers, RGB polygons of various shapes, and drop location racks.
 
-### 1. Warehouse Simulator with Resource Sharing
+## Prerequisites
 
-The **Warehouse Simulator with Resource Sharing** project is a testament to the remarkable coordination and resource-sharing capabilities inherent in robots within a simulated warehouse environment. This project is an exploration of efficient path planning, ingenious communication strategies, RGB-based object detection, meticulous collision avoidance techniques, and more.
+- Python 3.6 or later
+- Pygame
+- Matplotlib
 
-- [Project Details](./Warehouse%20Resource%20Sharing/)
+## Running the Simulator
 
-## Getting Started
+1. Ensure you have Python 3.6 or later installed on your system.
+2. Install the required dependencies by running the following command in your terminal:
 
-To embark on an exploration of any of the projects mentioned above, all you need to do is navigate to the relevant subdirectory. Within each project's dedicated directory, you'll uncover in-depth insights into its objectives, prerequisites, usage guidelines, and much more.
+   ```
+   pip install pygame matplotlib
+   ```
 
-## Contributing
+3. Clone or download the repository containing the Warehouse Simulator source code.
 
-If you're as passionate about these projects as we are and would like to contribute your own insights and enhancements, your contributions are more than welcome! Don't hesitate to fork this repository, implement your changes, and then submit a pull request. Be sure to adhere to any specific contribution guidelines provided for each project.
+4. Navigate to the repository directory using your terminal.
 
-## Contact
+5. Run the simulator by executing the `main.py` script:
 
-For any queries, suggestions, or feedback pertaining to the projects or the repository as a whole, please don't hesitate to reach out:
+   ```
+   python main.py
+   ```
 
-- Project Lead: [Momin Ali](https://www.linkedin.com/in/mominalix/)
-- General Inquiries: [Contact](mailto:momin@onex.ai)
+6. Follow the on-screen instructions to interact with the simulator and observe the robots' resource sharing behaviors.
+
+
+## Modules
+
+### 1. Path Planning
+
+The robots possess an initial understanding of object drop locations and the positions of other rovers. As rovers traverse the environment, unexplored areas are updated and shared among all robots. Path planning involves selecting the shortest route between pickup and drop locations.
+
+**Fail Safe:**
+- If path planning fails, predefined paths will be used until an obstacle is encountered.
+- In case of movement failure, the area will be marked as an obstacle and updated globally.
+- Near conveyor belts, the robotic arm will be employed to handle polygons for nearby robots.
+
+### 2. Communication
+
+Robots share global and local variables to exchange environment details and module statuses. If a robot module fails, nearby robots take proactive actions.
+
+**Fail Safe:**
+- If communication module fails, the nearest robot approaches the last known location to check for halting.
+- A halted robot prompts the location as an obstacle.
+- A polygon-free robot retrieves polygons from the failed robot.
+- Upon recovery, the robot updates both local and global variables to account for offline changes.
+
+### 3. RGB Module
+
+The RGB sensor detects polygon colors, determining suitable drop locations based on color assignments.
+
+**Fail Safe:**
+- Robots without RGB information wait at the pickup location, guided by sensor-equipped robots to identify polygon color and appropriate drop locations.
+
+### 4. Robot Arm
+
+The robot's arm facilitates polygon pickup and drop-off on varying racks.
+
+**Fail Safe:**
+- If the robot's arm fails, other robots handle polygon transfers from the carrier to the conveyor belt.
+
+### 5. Collision Avoidance
+
+This module detects obstacles, adapting path planning and global variables accordingly. Objects may be relocated during simulation, necessitating continuous scanning.
+
+**Fail Safe:**
+- In case of collision avoidance detector failure, the rover halts and requests the nearest robot for assistance in navigating around obstacles.
+
+## Conclusion and Results
+
+The Warehouse Simulator with Resource Sharing emphasizes the importance of communication in resource optimization. The results will compare successful attempts per unit time with and without inter-rover communication, accounting for random module failures. The analysis aims to showcase the benefits of resource sharing in enhancing swarm robot productivity, minimizing resource and time losses due to unexpected malfunctions.
 
