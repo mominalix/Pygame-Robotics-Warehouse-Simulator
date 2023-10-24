@@ -6,6 +6,8 @@ This document outlines the proposed features of the Warehouse Simulator, a syste
 
 The simulation environment consists of movable obstacles, rovers, RGB polygons of various shapes, and drop location racks.
 
+![UI](UI.png)
+
 ## Prerequisites
 
 - Python 3.6 or later
